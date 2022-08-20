@@ -130,7 +130,7 @@ g_token_cache = {}
 
 def render(template='', data={}, partials_path='.', partials_ext='mustache',
            partials_dict={}, padding='', def_ldel='{{', def_rdel='}}',
-           scopes=None, warn=False, keep=False):
+           scopes=None, warn=False, keep=False, escape=_html_escape):
     """Render a mustache template.
 
     Renders a mustache template with a data scope and partial capability.
@@ -238,7 +238,7 @@ def render(template='', data={}, partials_path='.', partials_ext='mustache',
                 thing = scopes[1]
             if not isinstance(thing, unicode_type):
                 thing = unicode(str(thing), 'utf-8')
-            output += _html_escape(thing)
+            output += escape(thing)
 
         # If we're a no html escape tag
         elif tag == 'no escape':
@@ -292,7 +292,7 @@ def render(template='', data={}, partials_path='.', partials_ext='mustache',
                              padding=padding,
                              def_ldel=def_ldel, def_rdel=def_rdel,
                              scopes=data and [data]+scopes or scopes,
-                             warn=warn, keep=keep))
+                             warn=warn, keep=keep, escape=escape))
 
                 if python3:
                     output += rend
@@ -329,7 +329,7 @@ def render(template='', data={}, partials_path='.', partials_ext='mustache',
                                   partials_ext=partials_ext,
                                   partials_dict=partials_dict,
                                   def_ldel=def_ldel, def_rdel=def_rdel,
-                                  warn=warn, keep=keep)
+                                  warn=warn, keep=keep, escape=escape)
 
                     if python3:
                         output += rend
@@ -364,7 +364,7 @@ def render(template='', data={}, partials_path='.', partials_ext='mustache',
                               partials_dict=partials_dict,
                               def_ldel=def_ldel, def_rdel=def_rdel,
                               padding=part_padding, scopes=scopes,
-                              warn=warn, keep=keep)
+                              warn=warn, keep=keep, escape=escape)
 
             # If the partial was indented
             if left.isspace():
